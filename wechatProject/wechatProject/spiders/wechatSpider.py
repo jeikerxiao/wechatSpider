@@ -20,7 +20,7 @@ class WechatspiderSpider(scrapy.Spider):
         'cookie': "wxuin=288838823; devicetype=android-22; version=26060339; lang=zh_CN; pass_ticket=EvoicShL+7oJm87LQE8b+Lt7UpPnaTfej0DeEmcQXerwO75bCPSWTzhnm8KV8j4W; wap_sid2=CKep3YkBElxGTlVFek53VUtfYUZkSEtSWEVDcVdPTnoyTEpXcHJfTWFaVElTRmxYaHhvOU84d19PUGprdU9QekpEVGVjUUpmWE1jYWpERmNralpaci1XLVVxZUxfYklEQUFBfjDNs9nUBTgNQJVO",
         'q-ua2': "QV=3&PL=ADR&PR=WX&PP=com.tencent.mm&PPVN=6.6.3&TBSVC=43603&CO=BK&COVC=043906&PB=GE&VE=GA&DE=PHONE&CHID=0&LCID=9422&MO= MX5 &RL=1080*1920&OS=5.1&API=22",
         'cache-control': "no-cache",
-        'postman-token': "77ef4aae-95bb-df62-2a66-bb229341cfa2"
+        'postman-token': "a546cbe9-0a8e-1466-b5d6-713d48e68f49"
     }
 
     # 开始爬取列表页
@@ -31,7 +31,7 @@ class WechatspiderSpider(scrapy.Spider):
 
     def parse(self, response):
         sites = json.loads(response.body_as_unicode())
-        print(sites['errmsg'])
+        print(sites)
         # for site in sites:
         #     print(site['errmsg'])
         pass

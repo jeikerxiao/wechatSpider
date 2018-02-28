@@ -1,4 +1,5 @@
 import http.client
+import json
 
 conn = http.client.HTTPConnection("mp.weixin.qq.com")
 
@@ -16,9 +17,23 @@ headers = {
     'postman-token': "a5415b0d-a0af-20e8-0bb0-a249eb79798b"
     }
 
-conn.request("GET", "/mp/profile_ext?action=getmsg&__biz=MzA3NTI4NDYyNw%3D%3D&f=json&f=json&offset=10&count=10&is_ok=1&scene=124&uin=777&key=777&pass_ticket=EvoicShL%2B7oJm87LQE8b%2BLt7UpPnaTfej0DeEmcQXerwO75bCPSWTzhnm8KV8j4W&wxtoken=&appmsg_token=946_Wb1vp5iG1IfjE6yxCqQ7vHlMzdSV53g0mrmObQ~~&x5=1", headers=headers)
+for page_num in range(0, 900, 1):
+    url = "/mp/profile_ext?action=getmsg&__biz=MzA3NTI4NDYyNw%3D%3D&f=json&f=json&offset=" + str(page_num) + "&count=10&is_ok=1&scene=124&uin=777&key=777&pass_ticket=EvoicShL%2B7oJm87LQE8b%2BLt7UpPnaTfej0DeEmcQXerwO75bCPSWTzhnm8KV8j4W&wxtoken=&appmsg_token=946_Wb1vp5iG1IfjE6yxCqQ7vHlMzdSV53g0mrmObQ~~&x5=1"
+    conn.request("GET", url=url, headers=headers)
+    res = conn.getresponse()
+    data = res.read()
+    result = json.loads(data)
+    print(result)
+    msg_list = result['general_msg_list']
+    msg_list_data = json.loads(msg_list)
 
-res = conn.getresponse()
-data = res.read()
-
-print(data.decode("utf-8", "ignore"))
+    msg_array = msg_list_data['list']
+    for item in msg_array:
+        title = item['app_msg_ext_info']['title']
+        digest = item['app_msg_ext_info']['digest']
+        content_url = item['app_msg_ext_info']['content_url']
+        image_url = item['app_msg_ext_info']['cover']
+        print(title)
+        print(digest)
+        print(content_url)
+        print(image_url)
