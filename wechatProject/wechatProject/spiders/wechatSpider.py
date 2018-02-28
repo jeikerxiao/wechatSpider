@@ -23,15 +23,10 @@ class WechatspiderSpider(scrapy.Spider):
         'postman-token': "77ef4aae-95bb-df62-2a66-bb229341cfa2"
     }
 
-    cookies = {
-        'cookie': "wxuin=288838823; devicetype=android-22; version=26060339; lang=zh_CN; pass_ticket=EvoicShL+7oJm87LQE8b+Lt7UpPnaTfej0DeEmcQXerwO75bCPSWTzhnm8KV8j4W; wap_sid2=CKep3YkBElxGTlVFek53VUtfYUZkSEtSWEVDcVdPTnoyTEpXcHJfTWFaVElTRmxYaHhvOU84d19PUGprdU9QekpEVGVjUUpmWE1jYWpERmNralpaci1XLVVxZUxfYklEQUFBfjDNs9nUBTgNQJVO",
-    }
-
     # 开始爬取列表页
     def start_requests(self):
         for page_num in range(0, 1, 1):
             url = 'http://mp.weixin.qq.com/mp/profile_ext?action=getmsg&__biz=MzA3NTI4NDYyNw==&f=json&offset=10&count=10&is_ok=1&scene=124&uin=777&key=777&pass_ticket=EvoicShL%2B7oJm87LQE8b%2BLt7UpPnaTfej0DeEmcQXerwO75bCPSWTzhnm8KV8j4W&wxtoken=&appmsg_token=946_Wb1vp5iG1IfjE6yxCqQ7vHlMzdSV53g0mrmObQ~~&x5=1&f=json'
-            # yield Request(url, headers=self.headers, cookies=self.cookies, callback=self.parse)
             yield Request(url, headers=self.headers, callback=self.parse)
 
     def parse(self, response):
