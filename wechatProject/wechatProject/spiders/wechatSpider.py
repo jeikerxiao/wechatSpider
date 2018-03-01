@@ -58,7 +58,8 @@ class WechatspiderSpider(scrapy.Spider):
                     item['content_url'] = json_item['app_msg_ext_info']['content_url']
                     item['image_url'] = json_item['app_msg_ext_info']['cover']
                     item['author'] = json_item['app_msg_ext_info']['author']
-                    yield item
+                    if item['title'] != '':
+                        yield item
                 except KeyError as e:
                     self.log('id：%s no content' % (item['id']))
                     pass
