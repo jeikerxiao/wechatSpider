@@ -11,6 +11,7 @@ import scrapy
 class WechatprojectItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
+    id = scrapy.Field()
     title = scrapy.Field()
     digest = scrapy.Field()
     content_url = scrapy.Field()

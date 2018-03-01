@@ -4,6 +4,7 @@ from scrapy.http import Request
 import json
 from wechatProject.items import WechatprojectItem
 
+
 class WechatspiderSpider(scrapy.Spider):
     name = 'wechatSpider'
     allowed_domains = ['mp.weixin.qq.com']
@@ -35,12 +36,14 @@ class WechatspiderSpider(scrapy.Spider):
 
     # 开始爬取列表页
     def start_requests(self):
-        for page_num in range(0, 900, 1):
-            url = 'http://mp.weixin.qq.com/mp/profile_ext?action=getmsg&__biz=MjM5MzY3MzcyNg==&f=json&offset='+ str(page_num)+'&count=10&is_ok=1&scene=124&uin=777&key=777&pass_ticket=RE6yeFEhr%2BbWKK0CCD5v8dpeVpzN3zvO0264FP%2FifrI%3D&wxtoken=&appmsg_token=946_FdVvphhcfMvh%252FZCuvRBaSf5FgN4-DlWYf-py4w~~&x5=1'
+        for page_num in range(0, 130, 10):
+            url = 'http://mp.weixin.qq.com/mp/profile_ext?action=getmsg&__biz=MjM5MzY3MzcyNg==&f=json&offset=' + str(
+                page_num) + '&count=10&is_ok=1&scene=124&uin=777&key=777&pass_ticket=RE6yeFEhr%2BbWKK0CCD5v8dpeVpzN3zvO0264FP%2FifrI%3D&wxtoken=&appmsg_token=946_FdVvphhcfMvh%252FZCuvRBaSf5FgN4-DlWYf-py4w~~&x5=1'
             yield Request(url, headers=self.headers, cookies=self.cookies, callback=self.parse)
 
     def parse(self, response):
         result = json.loads(response.body_as_unicode())
+        print(result)
         if result['ret'] == 0:
             msg_list = result['general_msg_list']
             msg_list_data = json.loads(msg_list)
@@ -48,12 +51,17 @@ class WechatspiderSpider(scrapy.Spider):
             msg_array = msg_list_data['list']
             for json_item in msg_array:
                 item = WechatprojectItem()
-                item['title'] = json_item['app_msg_ext_info']['title']
-                item['digest'] = json_item['app_msg_ext_info']['digest']
-                item['content_url'] = json_item['app_msg_ext_info']['content_url']
-                item['image_url'] = json_item['app_msg_ext_info']['cover']
-                item['author'] = json_item['app_msg_ext_info']['author']
-                yield item
+                item['id'] = json_item['comm_msg_info']['id']
+                try:
+                    item['title'] = json_item['app_msg_ext_info']['title']
+                    item['digest'] = json_item['app_msg_ext_info']['digest']
+                    item['content_url'] = json_item['app_msg_ext_info']['content_url']
+                    item['image_url'] = json_item['app_msg_ext_info']['cover']
+                    item['author'] = json_item['app_msg_ext_info']['author']
+                    yield item
+                except KeyError as e:
+                    self.log('id：%s no content' % (item['id']))
+                    pass
         else:
             self.log(result)
         pass

@@ -45,9 +45,10 @@ class MySQLPipeline(object):
     def process_item(self, item, spider):
         curTime = datetime.datetime.now()
         try:
-            self.cursor.execute("""INSERT INTO wechat_list (title, author, digest, image_url, content_url, create_time)  
-                            VALUES (%s, %s, %s, %s, %s, %s)""",
+            self.cursor.execute("""INSERT INTO wechat_list (article_id, title, author, digest, image_url, content_url, create_time)  
+                            VALUES (%s, %s, %s, %s, %s, %s, %s)""",
                                 (
+                                    item['id'],
                                     item['title'].encode('utf-8'),
                                     item['author'].encode('utf-8'),
                                     item['digest'].encode('utf-8'),
