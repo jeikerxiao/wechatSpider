@@ -39,8 +39,8 @@ class MySQLPipeline(object):
                                     use_unicode=True)
         self.cursor = self.conn.cursor()
         # 清空表：
-        # self.cursor.execute("truncate table wechat_list;")
-        # self.conn.commit()
+        self.cursor.execute("truncate table wechat_list;")
+        self.conn.commit()
 
     def process_item(self, item, spider):
         curTime = datetime.datetime.now()
